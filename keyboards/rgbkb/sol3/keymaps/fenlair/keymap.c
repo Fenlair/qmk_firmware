@@ -35,10 +35,10 @@ enum sol_layers {
 #define GUI_SC LGUI_T(KC_SCLN)
 
 // Layer keys
-#define KC_GAME TG(_GAME)
-#define KC_FN   OSL(_FN)
-#define KC_ADJ  TG(_ADJUST)
-//#define KC_NAV LT(NAVR, KC_SPC)
+#define L_GAME TG(_GAME)
+#define L_FN   OSL(_FN)
+#define L_ADJ  TT(_ADJUST)
+//#define L_NAV LT(NAVR, KC_SPC)
 
 
 /* Qwerty
@@ -75,7 +75,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_LBRC,                  KC_RBRC, KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSLS,
         FN_CAPS,  GUI_A,   ALT_S,   CTL_D,   SFT_F,   KC_G,    KC_LPRN,                  KC_RPRN, KC_H,    SFT_J,   CTL_K,   ALT_L,   GUI_SC,  KC_QUOT,
         KC_LSFT,  KC_Z,    ALT_X,   KC_C,    KC_V,    KC_B,    KC_LCBR,                  KC_RCBR, KC_N,    KC_M,    KC_COMM, ALT_DT,  KC_SLSH, KC_SFTENT,
-        _______,  KC_LGUI, KC_LALT, RGB_TOG, ADJUST,  KC_SPC,  KC_PGDN, KC_DEL, KC_ENT,  KC_PGUP, KC_SPC,  KC_GAME, KC_FN,   _______, KC_ADJ,  _______,
+        _______,  KC_LGUI, KC_LALT, RGB_TOG, KC_LALT, KC_SPC,  KC_PGDN, KC_DEL, KC_ENT,  KC_PGUP, KC_SPC,  L_GAME,  L_FN,    _______, L_ADJ,   _______,
 
         KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU,                                     KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU,
         KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_MPRV,                                                       KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_MPRV
@@ -97,8 +97,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F11,                    KC_F12,  KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  _______,
         _______, KC_HOME, KC_UP,   KC_END,  _______, _______, _______,                   _______, _______, KC_HOME, KC_UP,   KC_END,  KC_PSCR, KC_PGUP,
         _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______, _______,                   _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_INS,  KC_PGDN,
-        _______,  AU_TOG,  MU_TOG,  MU_MOD, _______, _______, _______,                   _______, _______, _______, _______, _______, _______, _______,
-        _______, CK_TOGG,   CK_UP, CK_DOWN, _______, _______, _______, _______, _______, _______, _______, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU,
+        _______, AU_TOG,  MU_TOG,  MU_MOD,  _______, _______, _______,                   _______, _______, _______, _______, _______, _______, _______,
+        _______, CK_TOGG, CK_UP,   CK_DOWN, _______, _______, _______, _______, _______, _______, _______, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU,
 
         _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______,                                                       _______, _______, _______, _______, _______
