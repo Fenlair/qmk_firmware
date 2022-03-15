@@ -27,6 +27,7 @@ enum sol_layers {
 
 // Layer keys
 #define KC_GAME TG(_GAME)
+#define KC_FN   OSL(_FN)
 #define KC_ADJ  TG(_ADJUST)
 //#define KC_NAV LT(NAVR, KC_SPC)
 
@@ -65,13 +66,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_LBRC,                  KC_RBRC, KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSLS,
         FN_CAPS,  GUI_A,   ALT_S,   CTL_D,   SFT_F,   KC_G,    KC_LPRN,                  KC_RPRN, KC_H,    SFT_J,   CTL_K,   ALT_L,   GUI_SC,  KC_QUOT,
         KC_LSFT,  KC_Z,    ALT_X,   KC_C,    KC_V,    KC_B,    KC_LCBR,                  KC_RCBR, KC_N,    KC_M,    KC_COMM, ALT_DT,  KC_SLSH, KC_SFTENT,
-        KC_LCTL,  KC_LGUI, KC_LALT, RGB_TOG, ADJUST,  KC_SPC,  KC_PGDN, KC_DEL, KC_ENT,  KC_PGUP, KC_SPC,  KC_GAME, KC_DOWN, KC_UP,   KC_ADJ,  KC_RCTL,
+        _______,  KC_LGUI, KC_LALT, RGB_TOG, ADJUST,  KC_SPC,  KC_PGDN, KC_DEL, KC_ENT,  KC_PGUP, KC_SPC,  KC_GAME, KC_FN,   _______, KC_ADJ,  _______,
 
         KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU,                                     KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU,
         KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_MPRV,                                                       KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_MPRV
     ),
 
-    // Deactivate Mod Tap for improved latency
+    // Deactivate Mod Tap for improved latency in gaming
     [_GAME] = LAYOUT(
         _______, _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______, _______,
@@ -151,6 +152,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
+//
+// PER KEY PERMISSIVE HOLD
+//
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         // Immediately select the hold action when another key is pressed.
@@ -161,5 +165,37 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
         // Do not select the hold action when another key is pressed.
         default:
             return false;
+    }
+}
+
+//
+// CUSTOM RGB
+//
+void my_set_rgb(int ind, HSV hsv) {
+    RGB rgb = rgb_matrix_hsv_to_rgb(hsv);
+    rgb_matrix_set_color(ind, rgb.r, rgb.g, rgb.b);
+}
+
+void my_set_rgb_all(HSV hsv) {
+    RGB rgb = rgb_matrix_hsv_to_rgb(hsv);
+    rgb_matrix_set_color_all(rgb.r, rgb.g, rgb.b);
+}
+
+void rgb_matrix_indicators_user(void) {
+    // capslock indicators
+    if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
+        my_set_rgb_all(HSV_ORANGE);
+    }
+    
+    // layer indicators
+    if(IS_LAYER_ON(_GAME)) {
+        my_set_rgb(151, HSV_RED);
+    }
+    if(IS_LAYER_ON(_FN)) {
+        my_set_rgb(42, HSV_YELLOW);
+        my_set_rgb(43, HSV_YELLOW);
+    }
+    if(IS_LAYER_ON(_ADJUST)) {
+        my_set_rgb(153, HSV_MAGENTA);
     }
 }
