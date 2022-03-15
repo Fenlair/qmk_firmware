@@ -1,10 +1,18 @@
 #pragma once
 
-#define TAPPING_TERM 250  // default 200
-// disable custom behavior for Mod Tap keys (by default hold is strongly prefered)
-#define IGNORE_MOD_TAP_INTERRUPT
-// Allow for custom permissive hold logic in keymap.c file
-#define PERMISSIVE_HOLD_PER_KEY
+//
+// TAPPING
+//
+#define TAPPING_TERM 250          // Time (in ms) until a tap is interpreted as a hold (default 200)
+#define IGNORE_MOD_TAP_INTERRUPT  // disable custom behavior for Mod Tap keys (by default hold is strongly prefered)
+#define PERMISSIVE_HOLD_PER_KEY   // Enables function rgb_matrix_indicators_user (in keymap.c)
+#define ONESHOT_TAP_TOGGLE 5      // Tapping this number of times holds the key until tapped once again.
+#define ONESHOT_TIMEOUT 5000      // Time (in ms) before the one shot key is released
+
+
+//
+// RGB
+//
 
 // No need for the single versions when multi performance isn't a problem =D
 #undef ENABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
@@ -32,6 +40,9 @@
 #define RGB_DISABLE_WHEN_USB_SUSPENDED
 
 
+//
+// VIA
+//
 #define VIA_EEPROM_LAYOUT_OPTIONS_SIZE 2
 // 224B per layer right now
 #define DYNAMIC_KEYMAP_LAYER_COUNT 8
