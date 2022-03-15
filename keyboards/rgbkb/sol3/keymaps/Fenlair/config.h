@@ -1,8 +1,9 @@
 #pragma once
 
+#define TAPPING_TERM 250  // default 200
 // disable custom behavior for Mod Tap keys (by default hold is strongly prefered)
 #define IGNORE_MOD_TAP_INTERRUPT
-//
+// Allow for custom permissive hold logic in keymap.c file
 #define PERMISSIVE_HOLD_PER_KEY
 
 // No need for the single versions when multi performance isn't a problem =D
