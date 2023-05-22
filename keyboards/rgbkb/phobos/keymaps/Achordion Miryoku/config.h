@@ -9,3 +9,14 @@
 #define RGB_DISABLE_WHEN_USB_SUSPENDED
 
 #define STM32_ONBOARD_EEPROM_SIZE 2048
+
+// does this still do anything?
+#define NO_ACTION_MACRO
+#define NO_ACTION_FUNCTION
+
+// Tap-hold configuration for home row mods.
+#define TAPPING_TERM 180
+#define TAPPING_TERM_PER_KEY
+#define PERMISSIVE_HOLD
+#define QUICK_TAP_TERM 100  // auto-repeat
+#define QUICK_TAP_TERM_PER_KEY
