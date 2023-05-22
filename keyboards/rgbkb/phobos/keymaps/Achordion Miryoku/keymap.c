@@ -122,6 +122,40 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t* record) {
+  switch (keycode) {
+    // Increase the tapping term a little for slower ring and pinky fingers.
+    case HOME_A:
+    case HOME_S:
+    case HOME_Z:
+    case HOME_X:
+    case HOME_L:
+    case HOME_SC:
+    case HOME_DT:
+    case HOME_SL:
+      return TAPPING_TERM + 15;
+
+    default:
+      return TAPPING_TERM;
+  }
+}
+
+uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
+  // If you quickly hold a tap-hold key after tapping it, the tap action is
+  // repeated. Key repeating is useful e.g. for Vim navigation keys, but can
+  // lead to missed triggers in fast typing. Here, returning 0 means we
+  // instead want to "force hold" and disable key repeating.
+  switch (keycode) {
+    // Repeating is useful for Vim navigation keys.
+    case QHOME_J:
+    case QHOME_K:
+    case QHOME_L:
+      return QUICK_TAP_TERM;  // Enable key repeating.
+    default:
+      return 0;  // Otherwise, force hold and disable key repeating.
+  }
+}
+
 bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record,
                      uint16_t other_keycode, keyrecord_t* other_record) {
   // Exceptionally consider the following chords as holds, even though they
@@ -196,9 +230,6 @@ void render_layer_status(void) {
     switch (get_highest_layer(layer_state)) {
         case _QWERTY:
             oled_write_ln_P(PSTR("QWRTY"), false);
-            break;
-        case _COLEMAK:
-            oled_write_ln_P(PSTR("Colemk"), false);
             break;
         case _GAME:
             oled_write_ln_P(PSTR("Game  "), false);
