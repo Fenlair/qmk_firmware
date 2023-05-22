@@ -1,3 +1,5 @@
 MOUSEKEY_ENABLE = no
 DYNAMIC_MACRO_ENABLE = no
 OLED_ENABLE = no
+
+SRC += features/achordion.c
