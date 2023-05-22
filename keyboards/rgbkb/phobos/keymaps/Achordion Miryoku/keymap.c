@@ -46,12 +46,6 @@ enum phobos_combos {
 };
 uint16_t COMBO_LEN = COMBO_LENGTH;
 
-const uint16_t caps_combo[] PROGMEM = {KC_COMM, KC_C, COMBO_END};
-
-combo_t key_combos[] = {
-  [CAPS_COMBO] = COMBO_ACTION(caps_combo),
-  // Other combos...
-};
 
 #define QWERTY   DF(_QWERTY)
 #define GAME     DF(_GAME)
@@ -234,6 +228,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
+// COMBOs
+const uint16_t caps_combo[] PROGMEM = {KC_COMM, KC_C, COMBO_END};
+
+combo_t key_combos[] = {
+  [CAPS_COMBO] = COMBO_ACTION(caps_combo),
+  // Other combos...
+};
+
 void process_combo_event(uint16_t combo_index, bool pressed) {
   switch(combo_index) {
     case CAPS_COMBO:
@@ -263,10 +265,22 @@ void my_set_rgb_all(HSV hsv) {
     rgb_matrix_set_color_all(rgb.r, rgb.g, rgb.b);
 }
 
+static int caps_word_state = 0;
+void caps_word_set_user(bool active) {
+    if (active) {
+        caps_word_state = 1;
+    } else {
+        caps_word_state = 0;
+    }
+}
+
 void rgb_matrix_indicators_user(void) {
     // capslock indicators
     if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
         my_set_rgb_all(HSV_ORANGE);
+    }
+    if (caps_word_state) {
+        my_set_rgb_all(HSV_RED);
     }
     
     // layer indicators
