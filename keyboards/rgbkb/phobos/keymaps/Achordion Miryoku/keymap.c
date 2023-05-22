@@ -1,13 +1,5 @@
-/*
- * ----------------------------------------------------------------------------
- * "THE BEER-WARE LICENSE" (Revision 42):
- * <https://github.com/Legonut> wrote this file.  As long as you retain this
- * notice you can do whatever you want with this stuff. If we meet some day, and
- * you think this stuff is worth it, you can buy me a beer in return. David Rauseo
- * ----------------------------------------------------------------------------
- */
-
 #include QMK_KEYBOARD_H
+#include "features/achordion.h"
 
 /* Qwerty
  * ┌──────┬──────┬──────┬──────┬──────┬──────┬──────┐  ┌──────┬──────┬──────┬──────┬──────┬──────┬──────┐
@@ -104,6 +96,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!process_achordion(keycode, record)) { return false; }
     switch (keycode)
     {
         case MENU_BTN:
@@ -158,4 +151,8 @@ void render_layer_status(void) {
         default:
             oled_write_ln_P(PSTR("Undef"), false);
     }
+}
+
+void matrix_scan_user(void) {
+    achordion_task();
 }
