@@ -44,17 +44,44 @@ enum phobos_keycodes {
 #define COLEMAK  DF(_COLEMAK)
 #define GAME     DF(_GAME)
 #define QWERTY   DF(_QWERTY)
-#define FN_ESC  LT(_FN, KC_ESC)
+#define FN_ESC   LT(_FN, KC_ESC)
 //#define RGB_ADJ  LT(_ADJUST, RGB_TOG)
+
+// This keymap uses home row mods. In addition to mods, I have home row
+// layer-tap keys for the SYM layer. The key arrangement is a variation on
+// "GACS-order" home row mods:
+//
+//             Left hand                          Right hand
+// +-------+-------+-------+-------+   +-------+-------+-------+-------+
+// |  Sym  |  Alt  | Ctrl  | Shift |   | Shift | Ctrl  |  Alt  |  Sym  |
+// +-------+-------+-------+-------+   +-------+-------+-------+-------+
+// |  Gui  | AltGr |                                   | AltGr |  Gui  |
+// +-------+-------+                                   +-------+-------+
+
+// Home row mods for QWERTY layer.
+#define HOME_A LT(SYM, KC_A)
+#define HOME_S LALT_T(KC_S)
+#define HOME_D LCTL_T(KC_D)
+#define HOME_F LSFT_T(KC_F)
+#define HOME_Z LGUI_T(KC_Z)
+#define HOME_X RALT_T(KC_X)
+
+#define HOME_J RSFT_T(KC_J)
+#define HOME_K RCTL_T(KC_K)
+#define HOME_L LALT_T(KC_L)
+#define HOME_SC LT(SYM, KC_SCLN)
+#define HOME_DT RALT_T(KC_DOT)
+#define HOME_SL RGUI_T(KC_SLSH)
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_QWERTY] = LAYOUT(
         KC_GESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_MINS,                  KC_EQL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
         KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_LBRC,                  KC_RBRC, KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSLS,
-        FN_ESC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_LPRN,                  KC_RPRN, KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-        KC_LSFT,  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_LCBR,                  KC_RCBR, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_SFTENT,
-                                    KC_LCTL, KC_LALT,  KC_SPC,  KC_LGUI, KC_DEL, KC_ENT,  KC_PGUP, KC_SPC,  RGB_TOG, ADJUST, 
+        FN_ESC,   HOME_A,  HOME_S,  HOME_D,  HOME_F,  KC_G,    KC_LPRN,                  KC_RPRN, KC_H,    HOME_J,  HOME_K,  HOME_L,  HOME_SC, KC_QUOT,
+        KC_LSFT,  HOME_Z,  HOME_X,  KC_C,    KC_V,    KC_B,    KC_LCBR,                  KC_RCBR, KC_N,    KC_M,    KC_COMM, HOME_DT, HOME_SL, KC_SFTENT,
+                                    KC_LCTL, KC_LALT, KC_SPC,  KC_LGUI, KC_DEL, KC_ENT,  KC_PGUP, KC_SPC,  RGB_TOG, ADJUST, 
 
         KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU,                                     KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU,
         KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_MPRV,                                                       KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_MPRV
@@ -94,6 +121,40 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
 };
+
+bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record,
+                     uint16_t other_keycode, keyrecord_t* other_record) {
+  // Exceptionally consider the following chords as holds, even though they
+  // are on the same hand in Magic Sturdy.
+  switch (tap_hold_keycode) {
+    case HOME_A:  // A + F.
+      if (other_keycode == HOME_F) {
+        return true;
+      }
+      break;
+  }
+
+  // Also allow same-hand holds when the other key is in the rows below the
+  // alphas. I need the `% (MATRIX_ROWS / 2)` because my keyboard is split.
+  if (other_record->event.key.row % (MATRIX_ROWS / 2) >= 4) {
+    return true;
+  }
+
+  // Otherwise, follow the opposite hands rule.
+  return achordion_opposite_hands(tap_hold_record, other_record);
+}
+
+uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
+  switch (tap_hold_keycode) {
+    case HOME_Z:
+    case HOME_X:
+    case HOME_DT:
+    case HOME_SL:
+      return 0;  // Bypass Achordion for these keys.
+  }
+
+  return 800;  // Otherwise use a timeout of 800 ms.
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_achordion(keycode, record)) { return false; }
