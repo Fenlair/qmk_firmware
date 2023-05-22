@@ -15,9 +15,12 @@
  *                      └──────┴──────┤ Space├──────┤  ├──────┤ Space├──────┴──────┘
  *                                    │      │ DEL  │  │ Enter│      │
  *                                    └──────┴──────┘  └──────┴──────┘
+ * Rotary Encoders:
+ *  Left-Thumb | Left of LThumb | Left Extra Col              Right-Thumb | Right of RThumb | Right Extra Col
  * ┌──────┬──────┬──────┬──────┬──────┬──────┐                ┌──────┬──────┬──────┬──────┬──────┬──────┐
  * │Vol Dn│Vol Up│Vol Dn│Vol Up│Vol Dn│Vol Up│                │Vol Dn│Vol Up│Vol Dn│Vol Up│Vol Dn│Vol Up│
  * └──────┴──────┴──────┴──────┴──────┴──────┘                └──────┴──────┴──────┴──────┴──────┴──────┘
+ * Left Touchbar                                                     Right Touchbar
  * ┌──────┬──────┬──────┬──────┬──────┐                              ┌──────┬──────┬──────┬──────┬──────┐
  * │Vol Dn│Vol Up│ Prev │ Play │ Next │                              │Vol Dn│Vol Up│ Prev │ Play │ Next │
  * └──────┴──────┴──────┴──────┴──────┘                              └──────┴──────┴──────┴──────┴──────┘
@@ -26,24 +29,36 @@
 enum phobos_layers {
     _QWERTY,
     _GAME,
-    _FN,
+    _NAV,
+    _SYM,
     _ADJUST
 };
 
 enum phobos_keycodes {
     // Disables touch processing
-    TCH_TOG = SAFE_RANGE,
-    MENU_BTN,
-    MENU_UP,
-    MENU_DN,
-    RGB_RST
+    RGB_RST = SAFE_RANGE,
 };
 
-#define FN       MO(_FN)
-#define ADJUST   MO(_ADJUST)
-#define COLEMAK  DF(_COLEMAK)
-#define GAME     DF(_GAME)
+enum phobos_combos {
+  CAPS_COMBO,
+  // Other combos...
+  COMBO_LENGTH
+};
+uint16_t COMBO_LEN = COMBO_LENGTH;
+
+const uint16_t caps_combo[] PROGMEM = {KC_COMM, KC_C, COMBO_END};
+
+combo_t key_combos[] = {
+  [CAPS_COMBO] = COMBO_ACTION(caps_combo),
+  // Other combos...
+};
+
 #define QWERTY   DF(_QWERTY)
+#define GAME     DF(_GAME)
+#define NAV      MO(_NAV)
+#define SYM      MO(_SYM)
+#define ADJUST   MO(_ADJUST)
+
 #define FN_ESC   LT(_FN, KC_ESC)
 //#define RGB_ADJ  LT(_ADJUST, RGB_TOG)
 
@@ -59,7 +74,7 @@ enum phobos_keycodes {
 // +-------+-------+                                   +-------+-------+
 
 // Home row mods for QWERTY layer.
-#define HOME_A LT(SYM, KC_A)
+#define HOME_A LT(_SYM, KC_A)
 #define HOME_S LALT_T(KC_S)
 #define HOME_D LCTL_T(KC_D)
 #define HOME_F LSFT_T(KC_F)
@@ -69,7 +84,7 @@ enum phobos_keycodes {
 #define HOME_J RSFT_T(KC_J)
 #define HOME_K RCTL_T(KC_K)
 #define HOME_L LALT_T(KC_L)
-#define HOME_SC LT(SYM, KC_SCLN)
+#define HOME_SC LT(_SYM, KC_SCLN)
 #define HOME_DT RALT_T(KC_DOT)
 #define HOME_SL RGUI_T(KC_SLSH)
 
@@ -77,33 +92,44 @@ enum phobos_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_QWERTY] = LAYOUT(
-        KC_GESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_MINS,                  KC_EQL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
-        KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_LBRC,                  KC_RBRC, KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSLS,
-        FN_ESC,   HOME_A,  HOME_S,  HOME_D,  HOME_F,  KC_G,    KC_LPRN,                  KC_RPRN, KC_H,    HOME_J,  HOME_K,  HOME_L,  HOME_SC, KC_QUOT,
-        KC_LSFT,  HOME_Z,  HOME_X,  KC_C,    KC_V,    KC_B,    KC_LCBR,                  KC_RCBR, KC_N,    KC_M,    KC_COMM, HOME_DT, HOME_SL, KC_SFTENT,
-                                    KC_LCTL, KC_LALT, KC_SPC,  KC_LGUI, KC_DEL, KC_ENT,  KC_PGUP, KC_SPC,  RGB_TOG, ADJUST, 
+        KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_MINS,                   KC_EQL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSLS,
+        KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_LBRC,                   KC_RBRC, KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
+        _______,  HOME_A,  HOME_S,  HOME_D,  HOME_F,  KC_G,    KC_LPRN,                   KC_RPRN, KC_H,    HOME_J,  HOME_K,  HOME_L,  HOME_SC, KC_QUOT,
+        _______,  HOME_Z,  HOME_X,  KC_C,    KC_V,    KC_B,    KC_LCBR,                   KC_RCBR, KC_N,    KC_M,    KC_COMM, HOME_DT, HOME_SL, _______,
+                                    _______, _______, KC_SPC,  _______, _______, _______, _______, KC_ENT,  RGB_TOG, GAME, 
 
-        KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU,                                     KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU,
-        KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_MPRV,                                                       KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_MPRV
+        KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU,                                      KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU,
+        KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_MPRV,                                                        KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_MPRV
     ),
 
     [_GAME] = LAYOUT(
-        _______, _______, _______, _______, _______, _______, KC_F1,                     KC_F5,   _______, _______, _______, _______, _______, _______,
-        _______, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_F2,                     KC_F6,   KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    _______,
-        _______, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_F3,                     KC_F7,   KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, _______,
-        _______, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_F4,                     KC_F8,   KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, _______,
-                                   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        KC_GESC, _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______, _______,
+        KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    _______, _______,                   _______, _______, KC_J,    KC_K,    KC_L,    KC_SCLN, _______,
+        KC_LSFT, KC_Z,    KC_X,    _______, _______, _______, _______,                   _______, _______, _______, _______, KC_DOT,  KC_SLSH, _______,
+                                   _______, KC_LALT, _______, _______, _______, _______, _______, _______, _______, QWERTY,
 
         _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______,                                                       _______, _______, _______, _______, _______
     ),
 
-    [_FN] = LAYOUT(
-        _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F11,                    KC_F12,  KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  _______,
-        _______, KC_HOME, KC_UP,   KC_END,  _______, _______, _______,                   _______, _______, KC_HOME, KC_UP,   KC_END,  KC_PSCR, KC_PGUP,
-        _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______, _______,                   _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_INS,  KC_PGDN,
-        _______,  AU_TOG, MU_TOG,  MU_MOD,  _______, _______, _______,                   _______, _______, _______, _______, _______, _______, _______,
+    [_NAV] = LAYOUT(
+        _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F11,                    KC_F11,  KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  _______,
+        _______, KC_HOME, KC_UP,   KC_END,  _______, _______, KC_F12,                    KC_F12,  KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_PSCR, _______,
+        _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______, KC_F13,                    KC_F13,  KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_INS,  _______,
+        _______, AU_TOG,  MU_TOG,  MU_MOD,  _______, _______, KC_F14,                    KC_F14, _______, _______, _______, _______, _______, _______,
                                    _______, _______, _______, _______, _______, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU,
+
+        _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______,                                                       _______, _______, _______, _______, _______
+    ),
+    
+    [_SYM] = LAYOUT(
+        _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F11,                    KC_F12,  KC_F6,   KC_F7,   KC_F8,  KC_F9,   KC_F10,  _______,
+        _______, _______, _______, _______, _______, _______, _______,                   _______, _______, KC_P7,   KC_P8,  KC_P9,   _______, _______,
+        _______, _______, _______, _______, _______, _______, _______,                   _______, _______, KC_P4,   KC_P5,  KC_P6,   _______, _______,
+        _______, _______, _______, _______, _______, _______, _______,                   _______, _______, KC_P1,   KC_P2,  KC_P3,   _______, _______,
+                                   _______, _______, _______, _______, _______, _______, _______, _______, KC_P0,   KC_PDOT,
 
         _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______,                                                       _______, _______, _______, _______, _______
@@ -112,9 +138,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_ADJUST] = LAYOUT(
         _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F11,                    KC_F12,  KC_F6,   KC_F7,   KC_F8,  KC_F9,   KC_F10,  _______,
         _______, RGB_SAD, RGB_VAI, RGB_SAI, QK_BOOT, _______, _______,                   _______, _______, KC_P7,   KC_P8,  KC_P9,   _______, _______,
-        _______, RGB_HUD, RGB_VAD, RGB_HUI, RGB_RST, _______, DM_REC1,                   QWERTY,  _______, KC_P4,   KC_P5,  KC_P6,   _______, _______,
-        _______, RGB_SPD, _______, RGB_SPI, _______, _______, DM_RSTP,                   COLEMAK, _______, KC_P1,   KC_P2,  KC_P3,   _______, GAME,
-                                   _______, _______, _______, _______, _______, _______, _______, KC_NLCK, KC_P0, KC_PDOT,
+        _______, RGB_HUD, RGB_VAD, RGB_HUI, RGB_RST, _______, DM_REC1,                   _______, _______, KC_P4,   KC_P5,  KC_P6,   _______, _______,
+        _______, RGB_SPD, _______, RGB_SPI, _______, _______, DM_RSTP,                   _______, _______, KC_P1,   KC_P2,  KC_P3,   _______, _______,
+                                   _______, _______, _______, _______, _______, _______, _______, _______, KC_P0,   KC_PDOT,
 
         _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______,                                                       _______, _______, _______, _______, _______
@@ -122,6 +148,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
+//
+// CUSTOM PROCESSING
+//
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t* record) {
   switch (keycode) {
     // Increase the tapping term a little for slower ring and pinky fingers.
@@ -192,31 +221,12 @@ uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_achordion(keycode, record)) { return false; }
+    
     switch (keycode)
     {
-        case MENU_BTN:
-            if (record->event.pressed) {
-                rgb_menu_selection();
-            }
-            return false;
-        case MENU_UP:
-            if (record->event.pressed) {
-                rgb_menu_action(true);
-            }
-            return false;
-        case MENU_DN:
-            if (record->event.pressed) {
-                rgb_menu_action(false);
-            }
-            return false;
         case RGB_RST:
             if (record->event.pressed) {
                 eeconfig_update_rgb_matrix_default();
-            }
-            return false;
-        case TCH_TOG:
-            if (record->event.pressed) {
-                touch_encoder_toggle();
             }
             return false;  // Skip all further processing of this key
         default:
@@ -224,27 +234,50 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
-void render_layer_status(void) {
-    // Host Keyboard Layer Status
-    oled_write_P(PSTR("Layer"), false);
-    switch (get_highest_layer(layer_state)) {
-        case _QWERTY:
-            oled_write_ln_P(PSTR("QWRTY"), false);
-            break;
-        case _GAME:
-            oled_write_ln_P(PSTR("Game  "), false);
-            break;
-        case _FN:
-            oled_write_ln_P(PSTR("FN   "), false);
-            break;
-        case _ADJUST:
-            oled_write_ln_P(PSTR("Adjst"), false);
-            break;
-        default:
-            oled_write_ln_P(PSTR("Undef"), false);
-    }
+void process_combo_event(uint16_t combo_index, bool pressed) {
+  switch(combo_index) {
+    case CAPS_COMBO:
+      if (pressed) {
+        caps_word_on();  // Activate Caps Word!
+      }
+      break;
+
+    // Other combos...
+  }
 }
 
 void matrix_scan_user(void) {
     achordion_task();
+}
+
+//
+// CUSTOM RGB
+//
+void my_set_rgb(int ind, HSV hsv) {
+    RGB rgb = rgb_matrix_hsv_to_rgb(hsv);
+    rgb_matrix_set_color(ind, rgb.r, rgb.g, rgb.b);
+}
+
+void my_set_rgb_all(HSV hsv) {
+    RGB rgb = rgb_matrix_hsv_to_rgb(hsv);
+    rgb_matrix_set_color_all(rgb.r, rgb.g, rgb.b);
+}
+
+void rgb_matrix_indicators_user(void) {
+    // capslock indicators
+    if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
+        my_set_rgb_all(HSV_ORANGE);
+    }
+    
+    // layer indicators
+    if(IS_LAYER_ON(_GAME)) {
+        my_set_rgb(154, HSV_RED);
+    }
+    //if(IS_LAYER_ON(_FN)) {
+    //    my_set_rgb(42, HSV_YELLOW);
+    //    my_set_rgb(43, HSV_YELLOW);
+    //}
+    //if(IS_LAYER_ON(_ADJUST)) {
+    //    my_set_rgb(153, HSV_MAGENTA);
+    //}
 }
