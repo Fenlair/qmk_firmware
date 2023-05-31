@@ -9,7 +9,7 @@
  * ├──────┼──────┼──────┼──────┼──────┼──────┼──────┤  ├──────┼──────┼──────┼──────┼──────┼──────┼──────┤
  * │      │   A  │   S  │   D  │   F  │   G  │      │  │      │   H  │   J  │   K  │   L  │   ;  │   '  │
  * ├──────┼──────┼──────┼──────┼──────┼──────┼──────┤  ├──────┼──────┼──────┼──────┼──────┼──────┼──────┤
- * │      │   Z  │   X  │   C  │   V  │   B  │      │  │      │   N  │   M  │   ,  │   .  │   /  │      │
+ * │ NAV  │   Z  │   X  │   C  │   V  │   B  │      │  │      │   N  │   M  │   ,  │   .  │   /  │      │
  * └──────┴──────┴──────┼──────┼──────┼──────┼──────┤  ├──────┼──────┼──────┼──────┼──────┴──────┴──────┘
  *                      │      │      │      │      │  │      │      │  RGB │ Game │
  *                      └──────┴──────┤ Space├──────┤  ├──────┤ Enter├──────┴──────┘
@@ -52,7 +52,7 @@ uint16_t COMBO_LEN = COMBO_LENGTH;
 #define GAME     DF(_GAME)
 #define NAV      MO(_NAV)
 #define SYM      MO(_SYM)
-#define NUM      MO(_NUM)
+#define NUM      TG(_NUM)
 #define ADJUST   MO(_ADJUST)
 
 #define FN_ESC   LT(_FN, KC_ESC)
@@ -70,19 +70,19 @@ uint16_t COMBO_LEN = COMBO_LENGTH;
 // +-------+-------+                                   +-------+-------+
 
 // Home row mods for QWERTY layer.
-#define HOME_A LT(_SYM, KC_A)
-#define HOME_S LALT_T(KC_S)
-#define HOME_D LCTL_T(KC_D)
-#define HOME_F LSFT_T(KC_F)
-#define HOME_Z LGUI_T(KC_Z)
-#define HOME_X RALT_T(KC_X)
+#define SYM_A LT(_SYM, KC_A)
+#define ALT_S LALT_T(KC_S)
+#define CTL_D LCTL_T(KC_D)
+#define SFT_F LSFT_T(KC_F)
+#define GUI_Z LGUI_T(KC_Z)
+#define ALTG_X RALT_T(KC_X)
 
-#define HOME_J RSFT_T(KC_J)
-#define HOME_K RCTL_T(KC_K)
-#define HOME_L LALT_T(KC_L)
-#define HOME_SC LT(_SYM, KC_SCLN)
-#define HOME_DT RALT_T(KC_DOT)
-#define HOME_SL RGUI_T(KC_SLSH)
+#define SFT_J RSFT_T(KC_J)
+#define CTL_K RCTL_T(KC_K)
+#define ALT_L LALT_T(KC_L)
+#define SYM_SC LT(_SYM, KC_SCLN)
+#define ALTG_DT RALT_T(KC_DOT)
+#define GUI_SL RGUI_T(KC_SLSH)
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -90,9 +90,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT(
         KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_MINS,                   KC_EQL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSLS,
         KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_LBRC,                   KC_RBRC, KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
-        _______,  HOME_A,  HOME_S,  HOME_D,  HOME_F,  KC_G,    KC_LPRN,                   KC_RPRN, KC_H,    HOME_J,  HOME_K,  HOME_L,  HOME_SC, KC_QUOT,
-        _______,  HOME_Z,  HOME_X,  KC_C,    KC_V,    KC_B,    KC_LCBR,                   KC_RCBR, KC_N,    KC_M,    KC_COMM, HOME_DT, HOME_SL, _______,
-                                    _______, _______, KC_SPC,  _______, _______, _______, _______, KC_ENT,  RGB_TOG, GAME, 
+        _______,  SYM_A,   ALT_S,   CTL_D,   SFT_F,   KC_G,    KC_LPRN,                   KC_RPRN, KC_H,    SFT_J,   CTL_K,   ALT_L,   SYM_SC,  KC_QUOT,
+        NAV,      GUI_Z,   ALTG_X,  KC_C,    KC_V,    KC_B,    KC_LCBR,                   KC_RCBR, KC_N,    KC_M,    KC_COMM, ALTG_DT, GUI_SL,  _______,
+                                    _______, NUM,     KC_SPC,  _______, _______, _______, _______, KC_ENT,  RGB_TOG, GAME, 
 
         KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU,                                      KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU,
         KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_MPRV,                                                        KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_MPRV
@@ -161,14 +161,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t* record) {
   switch (keycode) {
     // Increase the tapping term a little for slower ring and pinky fingers.
-    case HOME_A:
-    case HOME_S:
-    case HOME_Z:
-    case HOME_X:
-    case HOME_L:
-    case HOME_SC:
-    case HOME_DT:
-    case HOME_SL:
+    case SYM_A:
+    case ALT_S:
+    case GUI_Z:
+    case ALTG_X:
+    case ALT_L:
+    case SYM_SC:
+    case ALTG_DT:
+    case GUI_SL:
       return TAPPING_TERM + 15;
 
     default:
@@ -176,29 +176,29 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t* record) {
   }
 }
 
-uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
-  // If you quickly hold a tap-hold key after tapping it, the tap action is
-  // repeated. Key repeating is useful e.g. for Vim navigation keys, but can
-  // lead to missed triggers in fast typing. Here, returning 0 means we
-  // instead want to "force hold" and disable key repeating.
-  switch (keycode) {
-    // Repeating is useful for Vim navigation keys.
-    case QHOME_J:
-    case QHOME_K:
-    case QHOME_L:
-      return QUICK_TAP_TERM;  // Enable key repeating.
-    default:
-      return 0;  // Otherwise, force hold and disable key repeating.
-  }
-}
+// uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
+//   // If you quickly hold a tap-hold key after tapping it, the tap action is
+//   // repeated. Key repeating is useful e.g. for Vim navigation keys, but can
+//   // lead to missed triggers in fast typing. Here, returning 0 means we
+//   // instead want to "force hold" and disable key repeating.
+//   switch (keycode) {
+//     // Repeating is useful for Vim navigation keys.
+//     case SFT_J:
+//     case CTL_K:
+//     case ALT_L:
+//       return QUICK_TAP_TERM;  // Enable key repeating.
+//     default:
+//       return 0;  // Otherwise, force hold and disable key repeating.
+//   }
+// }
 
 bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record,
                      uint16_t other_keycode, keyrecord_t* other_record) {
   // Exceptionally consider the following chords as holds, even though they
   // are on the same hand in Magic Sturdy.
   switch (tap_hold_keycode) {
-    case HOME_A:  // A + F.
-      if (other_keycode == HOME_F) {
+    case SYM_A:  // A + F.
+      if (other_keycode == SFT_F) {
         return true;
       }
       break;
