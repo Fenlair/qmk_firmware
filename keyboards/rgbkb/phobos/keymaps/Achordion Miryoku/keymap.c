@@ -88,11 +88,11 @@ uint16_t COMBO_LEN = COMBO_LENGTH;
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_QWERTY] = LAYOUT(
-        KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_MINS,                   KC_EQL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSLS,
-        KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_LBRC,                   KC_RBRC, KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
-        _______,  SYM_A,   ALT_S,   CTL_D,   SFT_F,   KC_G,    KC_LPRN,                   KC_RPRN, KC_H,    SFT_J,   CTL_K,   ALT_L,   SYM_SC,  KC_QUOT,
-        NAV,      GUI_Z,   ALTG_X,  KC_C,    KC_V,    KC_B,    KC_LCBR,                   KC_RCBR, KC_N,    KC_M,    KC_COMM, ALTG_DT, GUI_SL,  _______,
-                                    _______, NUM,     KC_SPC,  _______, _______, _______, _______, KC_ENT,  RGB_TOG, GAME, 
+        KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    GAME,                      KC_EQL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSLS,
+        KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    ADJUST,                    KC_RBRC, KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
+        _______,  SYM_A,   ALT_S,   CTL_D,   SFT_F,   KC_G,    NUM,                       KC_RPRN, KC_H,    SFT_J,   CTL_K,   ALT_L,   SYM_SC,  KC_QUOT,
+        NAV,      GUI_Z,   ALTG_X,  KC_C,    KC_V,    KC_B,    NUM,                       KC_RCBR, KC_N,    KC_M,    KC_COMM, ALTG_DT, GUI_SL,  _______,
+                                    KC_DOWN, KC_UP,   KC_SPC,  _______, _______, _______, _______, KC_ENT,  KC_LEFT, KC_RGHT, 
 
         KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU,                                      KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU,
         KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_MPRV,                                                        KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_MPRV
@@ -113,7 +113,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F11,                    KC_F11,  KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  _______,
         _______, KC_HOME, KC_UP,   KC_END,  _______, _______, KC_F12,                    KC_F12,  KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_PSCR, _______,
         _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______, KC_F13,                    KC_F13,  KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_INS,  _______,
-        _______, AU_TOG,  MU_TOG,  MU_MOD,  _______, _______, KC_F14,                    KC_F14, _______, _______, _______, _______, _______, _______,
+        _______, AU_TOG,  MU_TOG,  MU_MOD,  _______, _______, KC_F14,                    KC_F14,  _______, _______, _______, _______, _______, _______,
                                    _______, _______, _______, _______, _______, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU,
 
         _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
@@ -121,11 +121,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     
     [_SYM] = LAYOUT(
-        _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F11,                    KC_F12,  KC_F6,   KC_F7,   KC_F8,  KC_F9,   KC_F10,  _______,
-        _______, _______, _______, _______, _______, _______, _______,                   _______, _______, KC_P7,   KC_P8,  KC_P9,   _______, _______,
-        _______, _______, _______, _______, _______, _______, _______,                   _______, _______, KC_P4,   KC_P5,  KC_P6,   _______, _______,
-        _______, _______, _______, _______, _______, _______, _______,                   _______, _______, KC_P1,   KC_P2,  KC_P3,   _______, _______,
-                                   _______, _______, _______, _______, _______, _______, _______, _______, KC_P0,   KC_PDOT,
+        KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F11,                    KC_F11,  KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  _______,
+        _______, _______, KC_LABK, KC_RABK, KC_AT,   _______, KC_F12,                    KC_F12,  _______, KC_P7,   KC_LBRC, KC_RBRC, _______, _______,
+        KC_CAPS, KC_EXLM, KC_MINS, KC_PLUS, KC_EQL , KC_HASH, KC_F13,                    KC_F13,  _______, KC_P4,   KC_LPRN, KC_RPRN, _______, _______,
+        _______, _______, KC_SLSH, KC_ASTR, KC_CIRC, _______, KC_F14,                    KC_F14,  _______, KC_P1,   KC_LCBR, KC_RCBR, _______, _______,
+                                   KC_PGDN, KC_PGUP, _______, _______, _______, _______, _______, _______, KC_HOME, KC_END,
 
         _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______,                                                       _______, _______, _______, _______, _______
@@ -202,11 +202,16 @@ bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record,
         return true;
       }
       break;
+    case CTL_D:  // CTRL + {X,C,V}
+      if (other_keycode == ALTG_X || other_keycode == KC_C || other_keycode == KC_V) {
+        return true;
+      }
+      break;
   }
 
   // Also allow same-hand holds when the other key is in the rows below the
   // alphas. I need the `% (MATRIX_ROWS / 2)` because my keyboard is split.
-  if (other_record->event.key.row % (MATRIX_ROWS / 2) >= 4) {
+  if (other_record->event.key.row % MATRIX_ROWS >= 4) {
     return true;
   }
 
@@ -216,14 +221,12 @@ bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record,
 
 uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
   switch (tap_hold_keycode) {
-    case HOME_Z:
-    case HOME_X:
-    case HOME_DT:
-    case HOME_SL:
+    case GUI_Z:
+    case GUI_SL:
       return 0;  // Bypass Achordion for these keys.
   }
 
-  return 800;  // Otherwise use a timeout of 800 ms.
+  return 500;  // Otherwise use a timeout of 500 ms.
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -241,26 +244,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
-// COMBOs
-const uint16_t caps_combo[] PROGMEM = {KC_COMM, KC_C, COMBO_END};
-
-combo_t key_combos[] = {
-  [CAPS_COMBO] = COMBO_ACTION(caps_combo),
-  // Other combos...
-};
-
-void process_combo_event(uint16_t combo_index, bool pressed) {
-  switch(combo_index) {
-    case CAPS_COMBO:
-      if (pressed) {
-        caps_word_on();  // Activate Caps Word!
-      }
-      break;
-
-    // Other combos...
-  }
-}
-
 void matrix_scan_user(void) {
     achordion_task();
 }
@@ -268,16 +251,6 @@ void matrix_scan_user(void) {
 //
 // CUSTOM RGB
 //
-void my_set_rgb(int ind, HSV hsv) {
-    RGB rgb = rgb_matrix_hsv_to_rgb(hsv);
-    rgb_matrix_set_color(ind, rgb.r, rgb.g, rgb.b);
-}
-
-void my_set_rgb_all(HSV hsv) {
-    RGB rgb = rgb_matrix_hsv_to_rgb(hsv);
-    rgb_matrix_set_color_all(rgb.r, rgb.g, rgb.b);
-}
-
 static int caps_word_state = 0;
 void caps_word_set_user(bool active) {
     if (active) {
@@ -290,21 +263,37 @@ void caps_word_set_user(bool active) {
 void rgb_matrix_indicators_user(void) {
     // capslock indicators
     if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
-        my_set_rgb_all(HSV_ORANGE);
+        rgb_matrix_set_color_all(RGB_ORANGE);
     }
     if (caps_word_state) {
-        my_set_rgb_all(HSV_RED);
+        rgb_matrix_set_color_all(RGB_ORANGE);
     }
     
     // layer indicators
     if(IS_LAYER_ON(_GAME)) {
-        my_set_rgb(154, HSV_RED);
+        rgb_matrix_set_color( 47, RGB_RED);
     }
-    //if(IS_LAYER_ON(_FN)) {
-    //    my_set_rgb(42, HSV_YELLOW);
-    //    my_set_rgb(43, HSV_YELLOW);
-    //}
-    //if(IS_LAYER_ON(_ADJUST)) {
-    //    my_set_rgb(153, HSV_MAGENTA);
-    //}
+    if(IS_LAYER_ON(_NUM)) {
+        rgb_matrix_set_color( 61, RGB_BLUE);
+        rgb_matrix_set_color(121, RGB_BLUE);
+        rgb_matrix_set_color(122, RGB_BLUE);
+        rgb_matrix_set_color(123, RGB_BLUE);
+        rgb_matrix_set_color(130, RGB_BLUE);
+        rgb_matrix_set_color(129, RGB_BLUE);
+        rgb_matrix_set_color(128, RGB_BLUE);
+        rgb_matrix_set_color(135, RGB_BLUE);
+        rgb_matrix_set_color(136, RGB_BLUE);
+        rgb_matrix_set_color(137, RGB_BLUE);
+        rgb_matrix_set_color(153, RGB_BLUE);
+        rgb_matrix_set_color(154, RGB_BLUE);
+    }
+    if(IS_LAYER_ON(_NAV) {
+        rgb_matrix_set_color(129, RGB_SPRINGGREEN);
+        rgb_matrix_set_color(135, RGB_SPRINGGREEN);
+        rgb_matrix_set_color(136, RGB_SPRINGGREEN);
+        rgb_matrix_set_color(137, RGB_SPRINGGREEN);
+    }
+    if(IS_LAYER_ON(_ADJUST)) {
+        rgb_matrix_set_color( 48, RGB_MAGENTA);
+    }
 }
