@@ -10,9 +10,7 @@
 
 #define STM32_ONBOARD_EEPROM_SIZE 2048
 
-// does this still do anything?
-#define NO_ACTION_MACRO
-#define NO_ACTION_FUNCTION
+#undefine AUDIO_CLICKY  // uses quite a bit of memory
 
 // Tap-hold configuration for home row mods.
 #define TAPPING_TERM 180            // Time (in ms) until a tap is interpreted as a hold (default 200)
