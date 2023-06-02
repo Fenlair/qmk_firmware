@@ -90,9 +90,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT(
         KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    GAME,                      KC_EQL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSLS,
         KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    ADJUST,                    KC_RBRC, KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
-        _______,  SYM_A,   ALT_S,   CTL_D,   SFT_F,   KC_G,    NUM,                       KC_RPRN, KC_H,    SFT_J,   CTL_K,   ALT_L,   SYM_SC,  KC_QUOT,
-        NAV,      GUI_Z,   ALTG_X,  KC_C,    KC_V,    KC_B,    NUM,                       KC_RCBR, KC_N,    KC_M,    KC_COMM, ALTG_DT, GUI_SL,  _______,
-                                    KC_LEFT, KC_RGHT, KC_SPC,  _______, _______, _______, QK_REP,  KC_ENT,  KC_DOWN, KC_UP, 
+        KC_ESC,   SYM_A,   ALT_S,   CTL_D,   SFT_F,   KC_G,    NUM,                       KC_RPRN, KC_H,    SFT_J,   CTL_K,   ALT_L,   SYM_SC,  KC_QUOT,
+        NAV,      GUI_Z,   ALTG_X,  KC_C,    KC_V,    KC_B,    TG(_NAV),                  KC_RCBR, KC_N,    KC_M,    KC_COMM, ALTG_DT, GUI_SL,  _______,
+                                    KC_LEFT, KC_RGHT, KC_SPC,  KC_BSPC, XXXXXXX, XXXXXXX, QK_REP,  KC_ENT,  KC_DOWN, KC_UP, 
 
         KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU,                                      KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU,
         KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_MPRV,                                                        KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_MPRV
@@ -125,7 +125,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, KC_LABK, KC_RABK, KC_AT,   _______, KC_F12,                    KC_F12,  XXXXXXX, KC_P7,   KC_LBRC, KC_RBRC, XXXXXXX, KC_DEL,
         KC_CAPS, KC_EXLM, KC_MINS, KC_PLUS, KC_EQL , KC_HASH, KC_F13,                    KC_F13,  XXXXXXX, KC_P4,   KC_LPRN, KC_RPRN, XXXXXXX, XXXXXXX,
         _______, _______, KC_SLSH, KC_ASTR, KC_CIRC, _______, KC_F14,                    KC_F14,  XXXXXXX, KC_P1,   KC_LCBR, KC_RCBR, XXXXXXX, _______,
-                                   KC_PGDN, KC_PGUP, KC_UNDS, _______, _______, _______, _______, _______, KC_HOME, KC_END,
+                                   KC_HOME, KC_END,  KC_UNDS, _______, _______, _______, _______, _______, KC_PGDN, KC_PGUP,
 
         _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______,                                                       _______, _______, _______, _______, _______
