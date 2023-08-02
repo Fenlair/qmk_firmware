@@ -10,9 +10,7 @@
 
 #define STM32_ONBOARD_EEPROM_SIZE 2048
 
-// does this still do anything?
-#define NO_ACTION_MACRO
-#define NO_ACTION_FUNCTION
+#undefine AUDIO_CLICKY  // uses quite a bit of memory
 
 // Reduces firmware size, if QK_AREP isn't used
 #define NO_ALT_REPEAT_KEY
