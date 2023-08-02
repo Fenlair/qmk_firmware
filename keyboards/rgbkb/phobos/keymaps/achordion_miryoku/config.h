@@ -14,6 +14,12 @@
 #define NO_ACTION_MACRO
 #define NO_ACTION_FUNCTION
 
+// Reduces firmware size, if QK_AREP isn't used
+#define NO_ALT_REPEAT_KEY
+
+#define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
+#define CAPS_WORD_INVERT_ON_SHIFT
+
 // Tap-hold configuration for home row mods.
 #define TAPPING_TERM 180            // Time (in ms) until a tap is interpreted as a hold (default 200)
 #define TAPPING_TERM_PER_KEY

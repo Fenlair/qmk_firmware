@@ -91,15 +91,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    GAME,                      KC_EQL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSLS,
         KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    ADJUST,                    KC_RBRC, KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
         KC_ESC,   SYM_A,   ALT_S,   CTL_D,   SFT_F,   KC_G,    NUM,                       KC_RPRN, KC_H,    SFT_J,   CTL_K,   ALT_L,   SYM_SC,  KC_QUOT,
-        NAV,      GUI_Z,   ALTG_X,  KC_C,    KC_V,    KC_B,    TG(_NAV),                  KC_RCBR, KC_N,    KC_M,    KC_COMM, ALTG_DT, GUI_SL,  _______,
-                                    KC_LEFT, KC_RGHT, KC_SPC,  KC_BSPC, XXXXXXX, XXXXXXX, QK_REP,  KC_ENT,  KC_DOWN, KC_UP, 
+        XXXXXXX,  GUI_Z,   ALTG_X,  KC_C,    KC_V,    KC_B,    TG(_NAV),                  KC_RCBR, KC_N,    KC_M,    KC_COMM, ALTG_DT, GUI_SL,  _______,
+                                    KC_LEFT, KC_RGHT, KC_SPC,  XXXXXXX, NAV,      QK_REP, XXXXXXX, KC_ENT,  KC_DOWN, KC_UP,
 
         KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU,                                      KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU, KC_VOLD, KC_VOLU,
         KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_MPRV,                                                        KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_MPRV
     ),
 
     [_GAME] = LAYOUT(
-        _______, _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, QWERTY,                    _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______, _______,
         KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    _______, _______,                   _______, _______, KC_J,    KC_K,    KC_L,    KC_SCLN, _______,
         KC_LSFT, KC_Z,    KC_X,    _______, _______, _______, _______,                   _______, _______, _______, _______, KC_DOT,  KC_SLSH, KC_RSFT,
@@ -113,7 +113,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F11,                    KC_F11,  KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  _______,
         _______, KC_HOME, KC_UP,   KC_END,  XXXXXXX, XXXXXXX, KC_F12,                    KC_F12,  KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_PSCR, _______,
         _______, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX, XXXXXXX, KC_F13,                    KC_F13,  KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_INS,  _______,
-        _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_F14,                    KC_F14,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+        _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(_NAV),                  KC_F14,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
                                    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
 
         _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
@@ -251,16 +251,8 @@ void matrix_scan_user(void) {
 //
 // CUSTOM RGB
 //
-static int caps_word_state = 0;
-void caps_word_set_user(bool active) {
-    if (active) {
-        caps_word_state = 1;
-    } else {
-        caps_word_state = 0;
-    }
-}
 
-void rgb_matrix_indicators_user(void) {
+bool rgb_matrix_indicators_user(void) {
     // capslock indicators
     if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
         rgb_matrix_set_color_all(RGB_ORANGE);
@@ -287,7 +279,7 @@ void rgb_matrix_indicators_user(void) {
         rgb_matrix_set_color(153, RGB_BLUE);
         rgb_matrix_set_color(154, RGB_BLUE);
     }
-    if(IS_LAYER_ON(_NAV) {
+    if(IS_LAYER_ON(_NAV)) {
         rgb_matrix_set_color(129, RGB_SPRINGGREEN);
         rgb_matrix_set_color(135, RGB_SPRINGGREEN);
         rgb_matrix_set_color(136, RGB_SPRINGGREEN);
@@ -296,7 +288,7 @@ void rgb_matrix_indicators_user(void) {
     if(IS_LAYER_ON(_ADJUST)) {
         rgb_matrix_set_color( 48, RGB_MAGENTA);
         rgb_matrix_set_color( 49, RGB_RED);
-        rgb_matrix_set_color( 60, RGB_ORAGNE);
+        rgb_matrix_set_color( 60, RGB_ORANGE);
         rgb_matrix_set_color( 53, RGB_GREEN);
         rgb_matrix_set_color( 52, RGB_GREEN);
         rgb_matrix_set_color( 51, RGB_GREEN);
@@ -306,4 +298,5 @@ void rgb_matrix_indicators_user(void) {
         rgb_matrix_set_color( 58, RGB_BLUE);
         rgb_matrix_set_color( 59, RGB_BLUE);
     }
+    return true;
 }

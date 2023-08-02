@@ -8,7 +8,7 @@
  */
 
 #include "common_oled.h"
-#include "oled_driver.h"
+#include "../../../drivers/oled/oled_driver.h"
 #include "rgb_matrix.h"
 
 // for memcpy & snprintf
