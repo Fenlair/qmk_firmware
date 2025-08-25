@@ -1,5 +1,6 @@
 #pragma once
 
+// FROM DEFAULT CONFIG
 #undef ENABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
 #undef ENABLE_RGB_MATRIX_SOLID_REACTIVE_CROSS
 #undef ENABLE_RGB_MATRIX_SOLID_REACTIVE_NEXUS
@@ -10,6 +11,7 @@
 
 #define STM32_ONBOARD_EEPROM_SIZE 2048
 
+// CUSTOM
 #undefine AUDIO_CLICKY // uses quite a bit of memory
 
 // Reduces firmware size, if QK_AREP isn't used
@@ -18,9 +20,11 @@
 #define CAPS_WORD_INVERT_ON_SHIFT
 
 // Tap-hold configuration for home row mods.
+#define PERMISSIVE_HOLD
+#define CHORDAL_HOLD
+#define FLOW_TAP_TERM 150
 #define TAPPING_TERM 180 // Time (in ms) until a tap is interpreted as a hold (default 200)
 #define TAPPING_TERM_PER_KEY
-#define PERMISSIVE_HOLD
 #define QUICK_TAP_TERM 100 // auto-repeat
 #define QUICK_TAP_TERM_PER_KEY
 
