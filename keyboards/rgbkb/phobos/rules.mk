@@ -8,6 +8,7 @@ BOOTLOADER = stm32-dfu
 VPATH += keyboards/rgbkb/common
 SRC += touch_encoder.c
 SRC += common_oled.c
+SRC += rev1/rev1.c
 QUANTUM_LIB_SRC += i2c_master.c
 
 # Build Options
@@ -28,7 +29,7 @@ DIP_SWITCH_ENABLE = yes
 WS2812_DRIVER = pwm
 RGBLIGHT_ENABLE = no
 RGB_MATRIX_ENABLE = yes
-RGB_MATRIX_DRIVER = WS2812
+RGB_MATRIX_DRIVER = ws2812
 
 OLED_ENABLE = yes
 OLED_DRIVER = SSD1306    # Enable the OLED Driver
@@ -42,4 +43,4 @@ OPT = 3
 
 OPT_DEFS += -DOLED_FONT_H=\"keyboards/rgbkb/common/glcdfont.c\"
 
-DEFAULT_FOLDER = rgbkb/phobos/rev1
+# DEFAULT_FOLDER = rgbkb/phobos/rev1  # Depricated features

@@ -9,7 +9,7 @@
 
 #pragma once
 
-//#include "config_common.h"
+// #include "config_common.h"
 #ifndef __ASSEMBLER__
 #    include "pin_defs.h"
 #endif
@@ -18,17 +18,17 @@
 #define COL2ROW 0
 #define ROW2COL 1
 
-#include "song_list.h"
+// #include "song_list.h"
 
 /* Matrix Configuration - Rows are doubled up */
 #define MATRIX_ROWS 12
 // Last pins reserved for encoder / touch encoder support
-#define MATRIX_ROW_PINS       { B15,  A8, A15, B12, A3, NO_PIN }
-#define MATRIX_ROW_PINS_RIGHT { B15, B14,  A8, A13, A7, NO_PIN }
+#define MATRIX_ROW_PINS {B15, A8, A15, B12, A3, NO_PIN}
+#define MATRIX_ROW_PINS_RIGHT {B15, B14, A8, A13, A7, NO_PIN}
 #define MATRIX_COLS 8
 // Empty matrix entries used for encoder / touch encoder support
-#define MATRIX_COL_PINS       { A6, A7, B0, B2, B1,  B9,  B3,  B4 }
-#define MATRIX_COL_PINS_RIGHT { B9, B8, B4, A6, A3, B10, B12, B11 }
+#define MATRIX_COL_PINS {A6, A7, B0, B2, B1, B9, B3, B4}
+#define MATRIX_COL_PINS_RIGHT {B9, B8, B4, A6, A3, B10, B12, B11}
 #define MATRIX_IO_DELAY 5
 
 #define BUSY_WAIT
@@ -36,18 +36,18 @@
 #define GPIO_INPUT_PIN_DELAY 10
 
 /* Touchbar adjustments */
-#define TOUCH_DEADZONE 50 // width of a "button", wider inputs will be interpreted as a swipe
-#define TOUCH_TERM 350 // time of a "button" touch, longer inputs will be a swipe
+#define TOUCH_DEADZONE 50   // width of a "button", wider inputs will be interpreted as a swipe
+#define TOUCH_TERM 350      // time of a "button" touch, longer inputs will be a swipe
 #define TOUCH_RESOLUTION 25 // sensitivity of swipes, lower=faster
 #define TOUCH_SEGMENTS 3
 
 /* Encoder Configuration */
 //      Matrix Entries  k36/k35(E1SW>B13), k33/k32, k7/k28
-#define ENCODERS_PAD_A { A1, B10, A13 }
-#define ENCODERS_PAD_B { A2, B11, B14 }
+#define ENCODERS_PIN_A {A1, B10, A13}
+#define ENCODERS_PIN_B {A2, B11, B14}
 //      Matrix Entries  k72/k71(E5SW>B0), k69/k68, k43/k64
-#define ENCODERS_PAD_A_RIGHT { A1, C15,  B3 }
-#define ENCODERS_PAD_B_RIGHT { A2, C14, B13 }
+#define ENCODERS_PIN_A_RIGHT {A1, C15, B3}
+#define ENCODERS_PIN_B_RIGHT {A2, C14, B13}
 
 /* COL2ROW or ROW2COL */
 #define DIODE_DIRECTION COL2ROW
@@ -64,15 +64,15 @@
 #define SERIAL_USART_TX_PAL_MODE 7
 #define SERIAL_USART_TIMEOUT 5
 #define SERIAL_USART_DRIVER SD1
-//#define SERIAL_USART_FULL_DUPLEX - Waiting on reunification pr
+// #define SERIAL_USART_FULL_DUPLEX - Waiting on reunification pr
 #if SERIAL_USART_FULL_DUPLEX
-    #define SERIAL_USART_RX_PIN A10
-    #define SERIAL_USART_RX_PAL_MODE 7
-    // Mun connects TX to TX and RX to RX as we were planning on i2c split, so we need pin swap for full duplex
-    #define SERIAL_USART_PIN_SWAP
-    #define SERIAL_USART_SPEED (2 * 1024 * 1024)
+#define SERIAL_USART_RX_PIN A10
+#define SERIAL_USART_RX_PAL_MODE 7
+// Mun connects TX to TX and RX to RX as we were planning on i2c split, so we need pin swap for full duplex
+#define SERIAL_USART_PIN_SWAP
+#define SERIAL_USART_SPEED (2 * 1024 * 1024)
 #else
-    #define SERIAL_USART_SPEED (1 * 1024 * 1024)
+#define SERIAL_USART_SPEED (1 * 1024 * 1024)
 #endif
 
 /* Split Transport Features */
@@ -82,8 +82,8 @@
 #define SPLIT_TRANSACTION_IDS_KB TOUCH_ENCODER_SYNC, RGB_MENU_SYNC
 
 /* LED Turbo DIP Switch */
-#define DIP_SWITCH_PINS { A14, B13 }
-#define DIP_SWITCH_PINS_RIGHT { A14, B0 }
+#define DIP_SWITCH_PINS {A14, B13}
+#define DIP_SWITCH_PINS_RIGHT {A14, B0}
 
 /* RGB LED Configuration */
 #define WS2812_DI_PIN B5
@@ -105,12 +105,12 @@
 
 #define DRIVER_LED_TOTAL RGBLED_NUM
 #define RGB_MATRIX_LED_COUNT RGBLED_NUM
-#define RGB_MATRIX_SPLIT { 106, 106 }
-#define RGB_MATRIX_CENTER { 81, 28 }
+#define RGB_MATRIX_SPLIT {106, 106}
+#define RGB_MATRIX_CENTER {81, 28}
 #define RGB_MATRIX_MAXIMUM_BRIGHTNESS 255
 #define RGB_MATRIX_LED_FLUSH_LIMIT 33
 #define RGB_MATRIX_LED_PROCESS_LIMIT 10
-#define RGB_DISABLE_WHEN_USB_SUSPENDED
+#define RGB_MATRIX_SLEEP
 
 // RGB Matrix Animation modes. Explicitly enabled
 // For full list of effects, see:

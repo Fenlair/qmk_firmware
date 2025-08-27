@@ -9,10 +9,14 @@
 
 #include "phobos.h"
 #include "eeconfig.h"
+#ifdef AUDIO_ENABLE
 #include "audio.h"
+#endif
 #include <transactions.h>
 
+#ifdef AUDIO_ENABLE
 extern audio_config_t audio_config;
+#endif
 
 void keyboard_post_init_kb(void) {
     touch_encoder_init();
@@ -25,9 +29,11 @@ void eeconfig_init_kb(void) {
     // Reset Keyboard EEPROM value to blank, rather than to a set value
     eeconfig_update_kb(0);
 
-    audio_config.raw = eeconfig_read_audio();
+    #ifdef AUDIO_ENABLE
+    audio_config.raw           = eeconfig_read_audio();
     audio_config.clicky_enable = false;
     eeconfig_update_audio(audio_config.raw);
+    #endif
 
     eeconfig_init_user();
 }

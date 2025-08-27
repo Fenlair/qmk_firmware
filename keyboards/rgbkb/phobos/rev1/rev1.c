@@ -23,34 +23,43 @@ typedef struct PACKED {
 
 // this maps encoders and then touch encoders to their respective electrical matrix entry
 // mapping is row (y) then column (x) when looking at the electrical layout
-const encodermap_t encoder_map[NUMBER_OF_ENCODERS][ENCODER_OPTIONS] = 
-{
-    { {  5, 0 }, {  5, 1 } }, // Encoder 0 matrix entries
-    { {  5, 2 }, {  5, 3 } }, // Encoder 1 matrix entries
-    { {  5, 4 }, {  5, 5 } }, // Encoder 2 matrix entries
-    { { 11, 0 }, { 11, 1 } }, // Encoder 3 matrix entries
-    { { 11, 2 }, { 11, 3 } }, // Encoder 4 matrix entries
-    { { 11, 4 }, { 11, 5 } }  // Encoder 5 matrix entries
+const encodermap_t encoder_map[NUMBER_OF_ENCODERS][ENCODER_OPTIONS] = {
+    {{5, 0}, {5, 1}},   // Encoder 0 matrix entries
+    {{5, 2}, {5, 3}},   // Encoder 1 matrix entries
+    {{5, 4}, {5, 5}},   // Encoder 2 matrix entries
+    {{11, 0}, {11, 1}}, // Encoder 3 matrix entries
+    {{11, 2}, {11, 3}}, // Encoder 4 matrix entries
+    {{11, 4}, {11, 5}}  // Encoder 5 matrix entries
 };
 
-const encodermap_t touch_encoder_map[NUMBER_OF_TOUCH_ENCODERS][TOUCH_ENCODER_OPTIONS] = 
-{
-    { { 1, 7 }, { 0, 7 }, { 2, 7 }, {  5, 6 }, {  5, 7 }, }, // Touch Encoder 0 matrix entries
-    { { 7, 7 }, { 6, 7 }, { 8, 7 }, { 11, 6 }, { 11, 7 }, }  // Touch Encoder 1 matrix entries
+const encodermap_t touch_encoder_map[NUMBER_OF_TOUCH_ENCODERS][TOUCH_ENCODER_OPTIONS] = {
+    {
+        {1, 7},
+        {0, 7},
+        {2, 7},
+        {5, 6},
+        {5, 7},
+    }, // Touch Encoder 0 matrix entries
+    {
+        {7, 7},
+        {6, 7},
+        {8, 7},
+        {11, 6},
+        {11, 7},
+    } // Touch Encoder 1 matrix entries
 };
 
 static bool limit_lightning = true;
 
 RGB rgb_matrix_hsv_to_rgb(HSV hsv) {
     if (limit_lightning) hsv.v /= 2;
-    return hsv_to_rgb(hsv); 
+    return hsv_to_rgb(hsv);
 }
 
 bool dip_switch_update_kb(uint8_t index, bool active) {
-    if (!dip_switch_update_user(index, active))
-        return false;
+    if (!dip_switch_update_user(index, active)) return false;
 
-    switch(index) {
+    switch (index) {
         case 0: {
             limit_lightning = active;
             break;
@@ -58,8 +67,7 @@ bool dip_switch_update_kb(uint8_t index, bool active) {
         case 1: {
             // Handle RGB Encoder switch press
             action_exec((keyevent_t){
-                .key = (keypos_t){.row = isLeftHand ? 4 : 10, .col = 6},
-                .pressed = active, .time = (timer_read() | 1) /* time should not be 0 */
+                .key = (keypos_t){.row = isLeftHand ? 4 : 10, .col = 6}, .pressed = active, .time = (timer_read() | 1) /* time should not be 0 */
             });
             break;
         }
@@ -79,18 +87,18 @@ static void process_encoder_matrix(encodermap_t pos) {
     });
 }
 
+#ifdef ENCODER_ENABLE
 bool encoder_update_kb(uint8_t index, bool clockwise) {
-    if (!encoder_update_user(index, clockwise))
-        return false;
+    if (!encoder_update_user(index, clockwise)) return false;
 
     // Mapping clockwise (typically increase) to zero, and counter clockwise (decrease) to 1
     process_encoder_matrix(encoder_map[index][clockwise ? 0 : 1]);
     return false;
 }
+#endif
 
 bool touch_encoder_update_kb(uint8_t index, bool clockwise) {
-    if (!touch_encoder_update_user(index, clockwise))
-        return false;
+    if (!touch_encoder_update_user(index, clockwise)) return false;
 
     // Mapping clockwise (typically increase) to zero, and counter clockwise (decrease) to 1
     process_encoder_matrix(touch_encoder_map[index][clockwise ? 0 : 1]);
@@ -98,8 +106,7 @@ bool touch_encoder_update_kb(uint8_t index, bool clockwise) {
 }
 
 bool touch_encoder_tapped_kb(uint8_t index, uint8_t section) {
-    if (!touch_encoder_tapped_user(index, section))
-        return false;
+    if (!touch_encoder_tapped_user(index, section)) return false;
 
     process_encoder_matrix(touch_encoder_map[index][section + 2]);
     return false;
@@ -119,11 +126,11 @@ led_config_t g_led_config = { {
     {  68,  67,  66,  65,  64,  63,  62, NO_LED },
     {  NO_LED, NO_LED, NO_LED,  72,  73,  74,  75,  76 },
     {  NO_LED, NO_LED, NO_LED, NO_LED, NO_LED, NO_LED, NO_LED, NO_LED },
-    { 119, 120, 121, 122, 123, 124, 125, NO_LED  },
-    { 132, 131, 130, 129, 128, 127, 126, NO_LED  },
-    { 133, 134, 135, 136, 137, 138, 139, NO_LED  },
-    { 146, 145, 144, 143, 142, 141, 140, NO_LED  },
-    { NO_LED, NO_LED, NO_LED, 150, 151, 152, 153, 154 },
+    { 153, 152, 151, 150, 149, 148, 147, NO_LED  },
+    { 154, 155, 156, 157, 158, 159, 160, NO_LED  },
+    { 167, 166, 165, 164, 163, 162, 161, NO_LED  },
+    { 168, 169, 170, 171, 172, 173, 174, NO_LED  },
+    { NO_LED, NO_LED, NO_LED, 179, 178, 177, 176, 175 },
     { NO_LED, NO_LED, NO_LED, NO_LED, NO_LED, NO_LED, NO_LED, NO_LED }
 }, { // ALL XY VALUES DIVIDE BY 2, THEN ADD 5
     // Left Half Perimeter
@@ -139,8 +146,8 @@ led_config_t g_led_config = { {
     {  40,  44 }, {  49,  44 }, {  66,  50 }, {  75,  54 }, {  70,  62 }, {  60,  60 },
     // Left Fullhand
     {   2,  60 }, {   8,  63 }, {  14,  65 }, {  18,  67 }, {  23,  71 }, {  27,  74 }, {  33,  75 }, {  40,  75 }, {  45,  76 }, {   52,  76 },
-    {   58, 77 }, {  63,  77 }, {  66,  79 }, {  63,  84 }, {  60,  89 }, {  57,  94 }, {  53, 100 }, {  50, 105 }, {  45, 107 }, {   39, 105 },
-    {   33,104 }, {  27, 102 }, {  21, 100 }, {  15,  99 }, {   9,  97 }, {   4,  96 }, {   1,  90 }, {  1,  84  }, {  1,  78 }, {   1,  72 }, {   1,  66 },
+    {  58,  77 }, {  63,  77 }, {  66,  79 }, {  63,  84 }, {  60,  89 }, {  57,  94 }, {  53, 100 }, {  50, 105 }, {  45, 107 }, {   39, 105 },
+    {  33, 104 }, {  27, 102 }, {  21, 100 }, {  15,  99 }, {   9,  97 }, {   4,  96 }, {   1,  90 }, {  1,  84  }, {   1,  78 }, {    1,  72 }, {   1,  66 },
     // Right Half Perimeter
     { 160,   6 }, { 160,  13 }, { 160,  19 }, { 160,  25 }, { 160,  31 }, { 160,  37 }, { 160,  43 }, { 160,  49 }, { 157,  52 }, { 151,  52 },
     { 145,  52 }, { 138,  52 }, { 132,  52 }, { 126,  52 }, { 120,  54 }, { 115,  57 }, { 110,  60 }, { 105,  63 }, {  99,  66 }, {  94,  69 },
@@ -151,67 +158,67 @@ led_config_t g_led_config = { {
     {  91,  16 }, { 103,  16 }, { 112,  16 }, { 122,  16 }, { 131,  16 }, { 141,  16 }, { 153,  16 },
     { 153,  25 }, { 141,  25 }, { 131,  25 }, { 122,  25 }, { 112,  25 }, { 103,  25 }, {  91,  25 },
     {  91,  35 }, { 103,  35 }, { 112,  35 }, { 122,  35 }, { 131,  35 }, { 141,  35 }, { 153,  35 },
-    { 122,  44 }, { 112,  44 }, {  96,  50 }, {  87,  54 }, {  92,  62 }, { 102,  60 }, 
+    { 122,  44 }, { 112,  44 }, {  96,  50 }, {  87,  54 }, {  92,  62 }, { 102,  60 },
     // Right Fullhand
-    {  160, 60 }, { 154,  63 }, { 148,  65 }, { 144,  67 }, { 139,  71 }, { 135,  74 }, { 129,  75 }, { 122,  75 }, { 117,  76 }, {  110,  76 },
-    {  104, 77 }, {  99,  77 }, {  96,  79 }, {  99,  84 }, { 102,  89 }, { 105,  94 }, { 109, 100 }, { 112, 105 }, { 117, 107 }, {  123, 105 },
-    {  129,104 }, { 135, 102 }, { 141, 100 }, { 147,  99 }, { 153,  97 }, { 158,  96 }, { 161,  90 }, { 161,  84 }, { 161,  78 }, {  161,  72 }, { 161,  66 }, 
+    { 160,  60 }, { 154,  63 }, { 148,  65 }, { 144,  67 }, { 139,  71 }, { 135,  74 }, { 129,  75 }, { 122,  75 }, { 117,  76 }, {  110,  76 },
+    { 104,  77 }, {  99,  77 }, {  96,  79 }, {  99,  84 }, { 102,  89 }, { 105,  94 }, { 109, 100 }, { 112, 105 }, { 117, 107 }, {  123, 105 },
+    { 129, 104 }, { 135, 102 }, { 141, 100 }, { 147,  99 }, { 153,  97 }, { 158,  96 }, { 161,  90 }, { 161,  84 }, { 161,  78 }, {  161,  72 }, { 161,  66 },
 }, {
+    // Left Half Perimeter - 2 is underglow
     2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
     2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
     2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
     2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+    // Left Half Keys - 1 is a modifier, 4 is a keylight
     1, 4, 4, 4, 4, 4, 1,
     1, 4, 4, 4, 4, 4, 1,
     1, 4, 4, 4, 4, 4, 1,
     1, 4, 4, 4, 4, 4, 1,
     1, 1, 1, 1, 1, 1,
+    // Left Fullhand
     2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
     2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
     2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
 
+    // Right Half Perimeter
     2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
     2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
     2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
     2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+    // Right Half Keys
     1, 4, 4, 4, 4, 4, 1,
     1, 4, 4, 4, 4, 4, 1,
     1, 4, 4, 4, 4, 4, 1,
     1, 4, 4, 4, 4, 4, 1,
     1, 1, 1, 1, 1, 1,
+    // Right Fullhand
     2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
     2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
     2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
 } };
 // clang-format on
 
-void rgb_matrix_increase_flags(void)
-{
+void rgb_matrix_increase_flags(void) {
     switch (rgb_matrix_get_flags()) {
         case LED_FLAG_ALL: {
             rgb_matrix_set_flags(LED_FLAG_KEYLIGHT | LED_FLAG_MODIFIER);
             rgb_matrix_set_color_all(0, 0, 0);
-            }
-            break;
+        } break;
         case LED_FLAG_KEYLIGHT | LED_FLAG_MODIFIER: {
             rgb_matrix_set_flags(LED_FLAG_UNDERGLOW);
             rgb_matrix_set_color_all(0, 0, 0);
-            }
-            break;
+        } break;
         case LED_FLAG_UNDERGLOW: {
             rgb_matrix_set_flags(LED_FLAG_NONE);
             rgb_matrix_disable_noeeprom();
-            }
-            break;
+        } break;
         default: {
             rgb_matrix_set_flags(LED_FLAG_ALL);
             rgb_matrix_enable_noeeprom();
-            }
-            break;
+        } break;
     }
 }
 #endif
-
 
 /* __attribute__((weak))  */
 /* void render_layer_status(void) { */
@@ -290,10 +297,9 @@ void rgb_matrix_increase_flags(void)
 /* } */
 
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
-    if (!process_record_user(keycode, record))
-        return false;
+    if (!process_record_user(keycode, record)) return false;
 
-    switch(keycode) {
+    switch (keycode) {
 #ifdef RGB_MATRIX_ENABLE
         case RGB_TOG:
             if (record->event.pressed) {

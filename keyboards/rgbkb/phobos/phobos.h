@@ -9,9 +9,9 @@
 
 #pragma once
 
-#if defined(KEYBOARD_rgbkb_phobos_rev1)
-#    include "rev1.h"
-#endif
+// #if defined(KEYBOARD_rgbkb_phobos_rev1)
+#include "rev1/rev1.h"
+// #endif
 
 #include "quantum.h"
 #include "touch_encoder.h"
